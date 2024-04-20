@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "sonos-testing"
+version = "0.1.0"
+description = ""
+authors = ["Ian McKenzie <ianmck98@gmail.com>"]
+readme = "README.md"
+packages = [{include = "sonos_testing"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+soco = "^0.30.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
