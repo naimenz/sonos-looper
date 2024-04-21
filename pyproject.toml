@@ -7,7 +7,7 @@ readme = "README.md"
 packages = [{include = "sonos_looper"}]
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = ">=3.9,<4.0"
 soco = "^0.30.3"
 fire = "^0.6.0"
 
