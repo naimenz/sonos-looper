@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "sonos-testing"
+name = "sonos-looper"
 version = "0.1.0"
 description = ""
 authors = ["Ian McKenzie <ianmck98@gmail.com>"]
 readme = "README.md"
-packages = [{include = "sonos_testing"}]
+packages = [{include = "sonos_looper"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -17,4 +17,4 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-sonos-loop = "sonos_testing.main:cli"
+sonos-looper = "sonos_looper.main:cli"

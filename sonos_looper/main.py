@@ -2,7 +2,7 @@ from soco import discover, SoCo
 import time
 import fire
 
-from sonos_testing.server import HttpServer, make_server
+from sonos_looper.server import HttpServer, make_server
 
 def main(path: str, ip: str | None = None, port: int | None = None, load_time: int = 15) -> None:
     """Play a local audio file on repeat on the Sonos speaker.
@@ -20,6 +20,7 @@ def main(path: str, ip: str | None = None, port: int | None = None, load_time: i
             the speaker before closing the server.
     """
     server = make_server(ip, port)
+    print(f"Server will run at {server.base_url}")
     sonos = get_sonos()
     loop_local_audio(sonos, path, server)
 
