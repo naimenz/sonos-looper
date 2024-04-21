@@ -1,34 +1,75 @@
-from pathlib import Path
-from soco import discover
+from soco import discover, SoCo
+import time
+import fire
 
-from sonos_testing.server import HttpServer
+from sonos_testing.server import HttpServer, make_server
 
-if __name__ == '__main__':
-    sonos = list(discover())[0]
-    # sonos = SoCo('192.168.1.102') # Pass in the IP of your Sonos speaker
-    # You could use the discover function instead, if you don't know the IP
+def main(path: str, ip: str | None = None, port: int | None = None, load_time: int = 15) -> None:
+    """Play a local audio file on repeat on the Sonos speaker.
 
-    # Pass in a URI to a media file to have it streamed through the Sonos
-    # speaker
-    server = HttpServer(8000)
-    server.run()
+    Requires setting up a local HTTP server to serve the file.
 
-    test_path = "data/test.wav"
-    local_uri = Path("http://localhost:8000") / test_path
-    number_in_queue = sonos.add_uri_to_queue(local_uri)
+    Args:
+        sonos: The Sonos speaker 'zone' to play the audio on.
+        path: The path to the song to play.
+        ip: The IP address of the server to serve the audio file. By default tries
+            to infer the IP address of the local machine.
+        port: The port of the server to serve the audio file. By default a random port
+            between 8000 and 9000 is chosen.
+        load_time: The time to wait for the audio to be sent from the server to
+            the speaker before closing the server.
+    """
+    server = make_server(ip, port)
+    sonos = get_sonos()
+    loop_local_audio(sonos, path, server)
 
-    # sonos.play_uri(
-    #     # 'http://ia801402.us.archive.org/20/items/TenD2005-07-16.flac16/TenD2005-07-16t10Wonderboy.mp3')
+def cli() -> None:
+    fire.Fire(main)
 
-    #     "blob:https://noises.online/2eb31f52-89c2-412c-be5c-6298ea141fa6"
-    # )
-    sonos.play_from_queue()
+def get_sonos() -> SoCo:
+    sonoses: list[SoCo] = list(discover())  # type: ignore
+    if len(sonoses) == 0:
+        raise ValueError("No Sonos zones found")
+    sonos = sonoses[0]
+    if len(sonoses) >= 1:
+        print(
+            "Warning: More than one Sonos zone found."
+            f" Using the first one ({sonos.player_name})."
+        )
+    return sonos
 
-    track = sonos.get_current_track_info()
 
-    print(track['title'])
+def loop_local_audio(
+    sonos: SoCo,
+    path: str,
+    server: HttpServer,
+    load_time: int = 15,
+) -> None:
+    """Play a local audio file on repeat on the Sonos speaker.
 
-    sonos.pause()
+    Requires setting up a local HTTP server to serve the file.
 
-    # Play a stopped or paused track
-    sonos.play()
+    Args:
+        sonos: The Sonos speaker 'zone' to play the audio on.
+        path: The path to the song to play.
+        server: The HTTP server to serve the audio file.
+        load_time: The time to wait for the audio to be sent from the server to
+            the speaker before closing the server.
+    """
+    server.start()
+    uri = f"{server.base_url}/{path}"
+    loop_audio(sonos, uri)
+    time.sleep(load_time)
+    server.stop()
+
+def loop_audio(sonos: SoCo, uri: str) -> None:
+    """Play an audio file on repeat on the Sonos speaker.
+
+    Args:
+        sonos: The Sonos speaker 'zone' to play the song on.
+        uri (str): The URI of the song to play.
+    """
+    sonos.clear_queue()
+    sonos.add_uri_to_queue(uri)
+    sonos.play_mode = "REPEAT_ALL"
+    sonos.play_from_queue(0)

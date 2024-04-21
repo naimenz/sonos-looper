@@ -122,6 +122,20 @@ files = [
 ]
 
 [[package]]
+name = "fire"
+version = "0.6.0"
+description = "A library for automatically generating command line interfaces."
+optional = false
+python-versions = "*"
+files = [
+    {file = "fire-0.6.0.tar.gz", hash = "sha256:54ec5b996ecdd3c0309c800324a0703d6da512241bc73b553db959d98de0aa66"},
+]
+
+[package.dependencies]
+six = "*"
+termcolor = "*"
+
+[[package]]
 name = "idna"
 version = "3.7"
 description = "Internationalized Domain Names in Applications (IDNA)"
@@ -336,6 +350,17 @@ socks = ["PySocks (>=1.5.6,!=1.5.7)"]
 use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
 
 [[package]]
+name = "six"
+version = "1.16.0"
+description = "Python 2 and 3 compatibility utilities"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
+files = [
+    {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
+    {file = "six-1.16.0.tar.gz", hash = "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926"},
+]
+
+[[package]]
 name = "soco"
 version = "0.30.3"
 description = "SoCo (Sonos Controller) is a simple library to control Sonos speakers."
@@ -356,6 +381,20 @@ xmltodict = "*"
 [package.extras]
 events-asyncio = ["aiohttp"]
 testing = ["black (>=22.12.0)", "coveralls", "flake8", "graphviz", "importlib-metadata (<5)", "pylint", "pytest (>=2.5)", "pytest-cov (<2.6.0)", "requests-mock", "sphinx (==4.5.0)", "sphinx-rtd-theme", "twine", "wheel"]
+
+[[package]]
+name = "termcolor"
+version = "2.4.0"
+description = "ANSI color formatting for output in terminal"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "termcolor-2.4.0-py3-none-any.whl", hash = "sha256:9297c0df9c99445c2412e832e882a7884038a25617c60cea2ad69488d4040d63"},
+    {file = "termcolor-2.4.0.tar.gz", hash = "sha256:aab9e56047c8ac41ed798fa36d892a37aca6b3e9159f3e0c24bc64a9b3ac7b7a"},
+]
+
+[package.extras]
+tests = ["pytest", "pytest-cov"]
 
 [[package]]
 name = "urllib3"
@@ -388,4 +427,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "7c5fd76cd6aeb00dea11c10378d67f1604332c9fd21df710f5c96e4aa8fa41b7"
+content-hash = "84c3e97c367232ccaaac0f24bfb5e661fa65a91cbcc5a0175d5477def747397e"
