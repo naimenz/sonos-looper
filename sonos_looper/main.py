@@ -1,10 +1,11 @@
 from soco import discover, SoCo
 import time
 import fire
+from typing import Optional
 
 from sonos_looper.server import HttpServer, make_server
 
-def main(path: str, ip: str | None = None, port: int | None = None, load_time: int = 15) -> None:
+def main(path: str, ip: Optional[str] = None, port: Optional[int] = None, load_time: int = 15) -> None:
     """Play a local audio file on repeat on the Sonos speaker.
 
     Requires setting up a local HTTP server to serve the file.

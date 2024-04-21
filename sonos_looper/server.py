@@ -3,6 +3,7 @@ import socket
 from http.server import SimpleHTTPRequestHandler
 from socketserver import TCPServer
 from threading import Thread
+from typing import Optional
 
 
 class HttpServer(Thread):
@@ -30,7 +31,7 @@ class HttpServer(Thread):
         print("Stop HTTP server")
         self.httpd.socket.close()
 
-def make_server(ip: str | None = None, port: int | None = None) -> HttpServer:
+def make_server(ip: Optional[str] = None, port: Optional[int] = None) -> HttpServer:
     if ip is None:
         ip = detect_ip_address()
     if port is None:
